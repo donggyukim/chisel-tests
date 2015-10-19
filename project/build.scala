@@ -3,6 +3,10 @@ import Keys._
 
 object GCDBuild extends Build
 {
-  lazy val root =     Project("tests",  base=file(".")).dependsOn(chisel)
-  lazy val chisel =   Project("chisel", base=file("chisel"))
+  override lazy val settings = super.settings ++ Seq(
+    scalaVersion := "2.11.6",
+    scalacOptions ++= Seq("-deprecation", "-unchecked")
+  )
+  lazy val chisel = Project("chisel", base=file("chisel"))
+  lazy val root   = Project("tests",  base=file(".")).dependsOn(chisel)
 } 
