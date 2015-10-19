@@ -1,6 +1,6 @@
 gendir  := generated
 tutdir  := tutorial/examples
-designs := $(filter-out examples Image Sound,\
+designs := $(filter-out examples Image Sound Darken,\
            $(notdir $(basename $(wildcard $(tutdir)/*.scala))))
 VPATH   := $(tutdir):$(generated)
 
