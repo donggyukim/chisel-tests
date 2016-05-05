@@ -3,21 +3,19 @@ tutdir  := tutorial/examples
 designs := $(filter-out examples Image Sound Darken,\
            $(notdir $(basename $(wildcard $(tutdir)/*.scala))))
 VPATH   := $(tutdir):$(generated)
-
-C_FLAGS  := --targetDir $(gendir) --genHarness --compile --test --vcd --vcdMem --isVCDinline --debug 
-V_FLAGS  := $(C_FLAGS) --v
+FLAGS   := --targetDir $(gendir) --genHarness --compile 
 
 all : cpp v
-cpp : $(addsuffix .cpp, $(designs))
+cpp : $(addsuffix .cpp, $(addprefix V, $(designs)))
 v   : $(addsuffix .v,   $(designs))
 
-%.cpp: %.scala 
+V%.cpp: %.scala 
 	mkdir -p $(gendir)
-	sbt "run $(basename $@) $(C_FLAGS)" | tee $@.out
+	sbt "run $* $(FLAGS)" | tee $@.out
 
 %.v: %.scala 
 	mkdir -p $(gendir)
-	sbt "run $(basename $@) $(V_FLAGS)" | tee $@.out
+	sbt "run $* $(FLAGS) --vcs" | tee $@.out
 
 clean:
 	rm -rf $(gendir) *.out
