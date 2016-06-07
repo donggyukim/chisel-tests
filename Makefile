@@ -3,7 +3,8 @@ tutdir  := tutorial/examples
 designs := $(filter-out examples Image Sound Darken,\
            $(notdir $(basename $(wildcard $(tutdir)/*.scala))))
 VPATH   := $(tutdir):$(generated)
-FLAGS   := --targetDir $(gendir) --genHarness --compile 
+FLAGS   := --targetDir $(gendir) --v --genHarness --compile --test
+#--noPropagation
 
 all : cpp v
 cpp : $(addsuffix .cpp, $(addprefix V, $(designs)))
