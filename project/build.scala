@@ -11,7 +11,7 @@ object GCDBuild extends Build
   )
   lazy val chisel  = project
   lazy val firrtl  = project
-  lazy val interp  = project in file("firrtl-interpreter") dependsOn firrtl
+  lazy val interp  = project dependsOn firrtl
   lazy val testers = project dependsOn (chisel, interp)
-  lazy val root    = (project in file(".")).settings(settings:_*) dependsOn testers
+  lazy val root = (project in file(".")) settings (settings:_*) dependsOn testers
 } 
