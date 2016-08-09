@@ -1,12 +1,17 @@
 import sbt._
 import Keys._
 
-object GCDBuild extends Build
+object TestBuild extends Build
 {
   override lazy val settings = super.settings ++ Seq(
-    scalaVersion := "2.11.6",
-    scalacOptions ++= Seq("-deprecation", "-unchecked")
+    scalaVersion := "2.11.7",
+    scalacOptions ++= Seq("-deprecation", "-unchecked"),
+    libraryDependencies ++= Seq("org.scalatest" % "scalatest_2.11" % "2.2.4" % Test)
   )
-  lazy val chisel = Project("chisel", base=file("chisel"))
-  lazy val root   = Project("tests",  base=file(".")).dependsOn(chisel)
+  lazy val chisel  = project
+  lazy val firrtl  = project
+  lazy val interp  = project dependsOn firrtl
+  lazy val testers = project dependsOn (chisel, interp)
+  lazy val tutorial = project dependsOn testers
+  lazy val root = (project in file(".")) settings (settings:_*) aggregate (interp, tutorial)
 } 

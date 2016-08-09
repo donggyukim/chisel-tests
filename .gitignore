@@ -2,3 +2,5 @@ generated
 target
 project/target
 *.out
+*.vcd
+test_run_dir
